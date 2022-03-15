@@ -1,0 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtwitch <rtwitch@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 15:33:56 by rtwitch           #+#    #+#             */
+/*   Updated: 2022/03/12 19:51:43 by rtwitch          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
+static char	*ft_copy(char *dst, const char *src)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+static size_t	ft_len(int n)
+{
+	size_t	i;
+	int		nb;
+
+	nb = n;
+	i = 0;
+	if (nb <= 0)
+		i++;
+	while (nb)
+	{
+		i++;
+		nb /= 10;
+	}
+	return (i);
+}
+
+char	*ft_itoa(int n)
+{
+	size_t	len;
+	char	*str;
+
+	len = ft_len(n);
+	str = (char *)malloc(len + 1);
+	if (!str)
+		return (0);
+	if (n == -2147483648)
+		return (ft_copy(str, "-2147483648"));
+	if (n < 0)
+	{
+		str[0] = '-';
+		n = -n;
+	}
+	if (n == 0)
+		str[0] = '0';
+	str[len] = '\0';
+	while (n)
+	{
+		str[len - 1] = n % 10 + '0';
+		n /= 10;
+		len--;
+	}
+	return (str);
+}
